@@ -5,7 +5,7 @@
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "https://kirimi.id/favicon.ico",
   "colors": {
     "primary": "#1C47F2",
     "light": "#1C47F2",
