@@ -36,9 +36,7 @@
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "introduction"
       ]
     },
     {
@@ -57,15 +55,12 @@
       "pages": [
         "api-reference/introduction"
       ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
     }
   ],
+  "modeToggle": {
+    "default": "dark",
+    "isHidden": true
+  },
+  "openapi": "api-reference/openapi.json",
   "footerSocials": {}
 }
