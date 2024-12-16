@@ -34,7 +34,7 @@
   "anchors": [
     {
       "name": "API Reference",
-      "openapi": "api-reference/openapi.json",
+      "openapi": "https://gist.githubusercontent.com/yolkmonday/7a4a9a0ea813b50a45ab655465b242fe/raw/92d5490ab86e94c39f11aa15e93226a21d0fff3c/kirimi.json",
       "url": "api-reference",
       "icon": "square-terminal"
     }
