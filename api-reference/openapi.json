@@ -1,194 +1,304 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "Kirimi API",
+    "version": "1.0.0",
+    "description": "API documentation for Kirimi messaging service."
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "url": "https://api.kirimi.id/v1"
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/send-message": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "summary": "Send a text message",
+        "operationId": "sendMessage",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string",
+                    "description": "Your user code"
+                  },
+                  "device_id": {
+                    "type": "string",
+                    "description": "Your device ID"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "description": "Receiver number"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Your message"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Your Secret Key"
+                  }
+                },
+                "required": [
+                  "user_code",
+                  "device_id",
+                  "receiver",
+                  "message",
+                  "secret"
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
+            "description": "Message sent successfully"
           },
           "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Bad request"
           }
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+    "/send-doc": {
+      "post": {
+        "summary": "Send a document",
+        "operationId": "sendDocument",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string",
+                    "description": "Your user code"
+                  },
+                  "device_id": {
+                    "type": "string",
+                    "description": "Your device ID"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "description": "Receiver number"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Your message"
+                  },
+                  "media": {
+                    "type": "string",
+                    "description": "URL Document"
+                  },
+                  "filename": {
+                    "type": "string",
+                    "description": "Your filename"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Your Secret Key"
+                  }
+                },
+                "required": [
+                  "user_code",
+                  "device_id",
+                  "receiver",
+                  "message",
+                  "media",
+                  "filename",
+                  "secret"
+                ]
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
+          "200": {
+            "description": "Document sent successfully"
           },
           "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
+            "description": "Bad request"
           }
         }
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+    "/send-image": {
+      "post": {
+        "summary": "Send an image",
+        "operationId": "sendImage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string",
+                    "description": "Your user code"
+                  },
+                  "device_id": {
+                    "type": "string",
+                    "description": "Your device ID"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "description": "Receiver number"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Your message"
+                  },
+                  "media": {
+                    "type": "string",
+                    "description": "URL Image"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Your Secret Key"
+                  }
+                },
+                "required": [
+                  "user_code",
+                  "device_id",
+                  "receiver",
+                  "message",
+                  "media",
+                  "secret"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/send-video": {
+      "post": {
+        "summary": "Send a video",
+        "operationId": "sendVideo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string",
+                    "description": "Your user code"
+                  },
+                  "device_id": {
+                    "type": "string",
+                    "description": "Your device ID"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "description": "Receiver number"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Your message"
+                  },
+                  "media": {
+                    "type": "string",
+                    "description": "URL Video"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Your Secret Key"
+                  }
+                },
+                "required": [
+                  "user_code",
+                  "device_id",
+                  "receiver",
+                  "message",
+                  "media",
+                  "secret"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Video sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/send-audio": {
+      "post": {
+        "summary": "Send an audio message",
+        "operationId": "sendAudio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string",
+                    "description": "Your user code"
+                  },
+                  "device_id": {
+                    "type": "string",
+                    "description": "Your device ID"
+                  },
+                  "receiver": {
+                    "type": "string",
+                    "description": "Receiver number"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Your message"
+                  },
+                  "media": {
+                    "type": "string",
+                    "description": "URL Audio"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Your Secret Key"
+                  }
+                },
+                "required": [
+                  "user_code",
+                  "device_id",
+                  "receiver",
+                  "message",
+                  "media",
+                  "secret"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Audio sent successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
       }
     }
   }
